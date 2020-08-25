@@ -14,9 +14,28 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-    }
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+
+    testCompile group: 'junit', name: 'junit', version: '4.13'
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'mysql:mysql-connector-java'
+    compile group: 'org.json', name: 'json', version: '20190722'
+
+
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+
+    compile group: 'org.webjars', name: 'jquery', version: '3.4.1'
+    implementation('org.modelmapper:modelmapper:2.3.0')
+    compileOnly "org.springframework.boot:spring-boot-configuration-processor"
+
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 }
 
 test {
