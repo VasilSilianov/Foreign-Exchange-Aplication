@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.services.contracts.ClientService;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.springframework.http.*;
@@ -9,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Arrays;
 
 @Service
-public class ClientServiceImpl {
+public class ClientServiceImpl implements ClientService {
 
     public static final String URL = "http://apilayer.net/api/live?access_key=2fedc6669786f9ad25c52df8e231f8c4&currencies=EUR,GBP,CAD,PLN&source=USD&format=1";
     private RestTemplate restTemplate = new RestTemplate();
