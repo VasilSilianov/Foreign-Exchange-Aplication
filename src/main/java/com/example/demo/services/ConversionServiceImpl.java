@@ -29,15 +29,18 @@ public class ConversionServiceImpl implements ConversionService {
     }
 
     @Override
-    public List<Transaction> getByDate(String date) {
+    public List<Transaction> getByDate(Date date) {
         return transactionRepository.getByDate(date);
     }
 
     @Override
-    public Transaction currencyConversion(double sourceAmount, String sourceCurrency , String targetCurrency){
+    public Transaction currencyConversion(double sourceAmount, String sourceCurrency , String targetCurrency)  {
         Transaction transaction = new Transaction();
         Date date = new Date();
         transaction.setAmount(sourceAmount*clientService.exchangeRate(sourceCurrency,targetCurrency));
+//        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+//                String sDate = formatter.format(date);
+//        Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(sDate);
         transaction.setDate(date);//TODO date
         return     transactionRepository.save(transaction);
 

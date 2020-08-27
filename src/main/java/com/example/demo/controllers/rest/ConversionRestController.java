@@ -5,6 +5,7 @@ import com.example.demo.services.contracts.ConversionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -27,12 +28,13 @@ public class ConversionRestController {
     }
 
     @GetMapping("transactions/{date}")
-    public List<Transaction> getAllTransactionsAtSpecificDate(@PathVariable String date){
+    public List<Transaction> getAllTransactionsAtSpecificDate(@PathVariable Date date){
+
        return  conversionService.getByDate(date);//List<Transaction> transactions =
     }
 
     @PostMapping("/{sourceAmount}/{sourceCurrency}/{targetCurrency}")//todo DTO za da gi napavam kato Json
-    public String currencyConversion(@PathVariable double sourceAmount, @PathVariable String sourceCurrency, @PathVariable String targetCurrency) {
+    public String currencyConversion(@PathVariable double sourceAmount, @PathVariable String sourceCurrency, @PathVariable String targetCurrency)  {
         Transaction transaction = conversionService.currencyConversion(sourceAmount, sourceCurrency, targetCurrency);
         System.out.println(transaction.getTransactionId());
         return String.format("Transaction ID: %d \nTarget currency amount: %.5f", transaction.getTransactionId(), transaction.getAmount());
