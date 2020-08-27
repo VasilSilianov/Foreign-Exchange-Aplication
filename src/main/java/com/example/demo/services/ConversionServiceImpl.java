@@ -7,6 +7,8 @@ import com.example.demo.services.contracts.ConversionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ConversionServiceImpl implements ConversionService {
 
@@ -19,6 +21,16 @@ public class ConversionServiceImpl implements ConversionService {
         this.transactionRepository = transactionRepository;
     }
 
+
+    @Override
+    public Transaction getById(int id) {
+      return   transactionRepository.getOne(id);
+    }
+
+    @Override
+    public List<Transaction> getByDate(String date) {
+        return transactionRepository.getByDate(date);
+    }
 
     @Override
     public Transaction currencyConversion(double sourceAmount, String sourceCurrency , String targetCurrency){

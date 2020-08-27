@@ -8,7 +8,5 @@ import java.util.List;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction,Integer> {
-
-    Transaction getByTransactionId(int transactionId);
     List<Transaction> getByDate(String date);
 }
