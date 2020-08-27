@@ -30,7 +30,7 @@ public class Transaction {
         return amount;
     }
 
-    private void setAmount(double amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
