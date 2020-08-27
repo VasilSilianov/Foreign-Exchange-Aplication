@@ -22,7 +22,7 @@ import java.util.Properties;
 public class JPAConfiguration {
 
 
-        private String dbURl, dbUsername, dBPassword;
+        private String dbURl,dbUsername,dBPassword;
 
         @Autowired
         public JPAConfiguration(Environment env) {
@@ -55,7 +55,7 @@ public class JPAConfiguration {
             LocalContainerEntityManagerFactoryBean em
                     = new LocalContainerEntityManagerFactoryBean();
             em.setDataSource(dataSource());
-            em.setPackagesToScan("com.example.socialnetwork.models");
+            em.setPackagesToScan("com.example.demo.models");
 
             JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
             em.setJpaVendorAdapter(vendorAdapter);
