@@ -20,13 +20,14 @@ public class ClientServiceImpl implements ClientService {
 
     public double exchangeRate(String currencyFrom, String currencyTo){
         String  jsonBody= callCurrencyLayerRestAPI().getBody();
+        //TODO - MAP holding all currencies to accept
         String concatenationOfTheTwoStrings = currencyFrom+currencyTo;
         if (jsonBody==null|| jsonBody.isEmpty()){
             throw  new IllegalArgumentException("The body of the json should not be empty");
         }
         JsonObject jsonObject = new JsonParser().parse(jsonBody).getAsJsonObject();
         jsonObject=jsonObject.getAsJsonObject("quotes");
-        double result = jsonObject.getAsJsonPrimitive(concatenationOfTheTwoStrings).getAsDouble();//
+        double result = jsonObject.getAsJsonPrimitive(concatenationOfTheTwoStrings).getAsDouble();//TODO try {}catch...
         return result;
     }
 

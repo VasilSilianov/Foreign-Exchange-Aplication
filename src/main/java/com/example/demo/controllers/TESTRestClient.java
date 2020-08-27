@@ -1,36 +1,50 @@
 package com.example.demo.controllers;
 
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.example.demo.models.Transaction;
+import com.example.demo.repositiries.TransactionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
+
 
 public class TESTRestClient {
 
     public static final String URL = "http://apilayer.net/api/live?access_key=2fedc6669786f9ad25c52df8e231f8c4&currencies=EUR,GBP,CAD,PLN&source=USD&format=1";
 
     static RestTemplate restTemplate = new RestTemplate();
+    @Autowired
+    private  TransactionRepository transactionRepository;
 
+//    @Autowired
+//    public TESTRestClient(TransactionRepository transactionRepository) {
+//        this.transactionRepository = transactionRepository;
+//    }
 
-//    private class QuotesObj {
+    //    private class QuotesObj {
 //        public double USDEUR;
 //        public double USDGBP;
 //        public double USDCAD;
 //        public double USDPLN;
 //    }
     public static void main(String[] args)  {
-      String result=  callCurrencyLayerRestAPI().getBody();
-        if ( result ==null || result.isEmpty()){
-            throw new IllegalArgumentException(" sdsad");
-        }
-        JsonObject propertiesWrapper = new JsonParser().parse(result).getAsJsonObject();
-        propertiesWrapper = propertiesWrapper.getAsJsonObject("quotes");
-        double value = propertiesWrapper.getAsJsonPrimitive("USDEUR").getAsDouble();
-        System.out.println(value);
+//      String result=  callCurrencyLayerRestAPI().getBody();
+//        if ( result ==null || result.isEmpty()){
+//            throw new IllegalArgumentException(" sdsad");
+//        }
+//        JsonObject propertiesWrapper = new JsonParser().parse(result).getAsJsonObject();
+//        propertiesWrapper = propertiesWrapper.getAsJsonObject("quotes");
+//        double value = propertiesWrapper.getAsJsonPrimitive("USDEUR").getAsDouble();
+//        System.out.println(value);
 
+
+        Transaction transaction = new Transaction();
+        transaction.setAmount(100);
+        transaction.setDate("27.08.2020");
+        new TESTRestClient().transactionRepository.save(transaction);
+        System.out.println("transaction saved");
 
 
       //

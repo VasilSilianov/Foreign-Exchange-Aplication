@@ -20,10 +20,12 @@ public class ConversionServiceImpl implements ConversionService {
     }
 
 
+    @Override
     public Transaction currencyConversion(double sourceAmount, String sourceCurrency , String targetCurrency){
         Transaction transaction = new Transaction();
         transaction.setAmount(sourceAmount*clientService.exchangeRate(sourceCurrency,targetCurrency));
-        transactionRepository.save(transaction);
-        return  transaction;
+        transaction.setDate("28.08.2020");//TODO date
+        return     transactionRepository.save(transaction);
+
     }
 }

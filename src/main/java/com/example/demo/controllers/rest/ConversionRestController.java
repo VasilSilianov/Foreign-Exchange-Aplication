@@ -19,9 +19,10 @@ public class ConversionRestController {
     }
 
 
-    @PostMapping("/{sourceAmount}/{sourceCurrency}/{targetCurrency}")
+    @PostMapping("/{sourceAmount}/{sourceCurrency}/{targetCurrency}")//todo DTO za da gi napavam kato Json
     public String currencyConversion(@PathVariable double sourceAmount, @PathVariable String sourceCurrency, @PathVariable String targetCurrency) {
         Transaction transaction = conversionService.currencyConversion(sourceAmount, sourceCurrency, targetCurrency);
+        System.out.println(transaction.getTransactionId());
         return String.format("Transaction ID: %d \nTarget currency amount: %.5f", transaction.getTransactionId(), transaction.getAmount());
     }
 
