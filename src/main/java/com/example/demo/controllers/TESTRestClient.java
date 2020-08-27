@@ -42,8 +42,7 @@ public class TESTRestClient {
 
         Transaction transaction = new Transaction();
         transaction.setAmount(100);
-        transaction.setDate("27.08.2020");
-        new TESTRestClient().transactionRepository.save(transaction);
+//        new TESTRestClient().transactionRepository.save(transaction);
         System.out.println("transaction saved");
 
 
