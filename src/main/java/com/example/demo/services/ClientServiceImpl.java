@@ -1,11 +1,13 @@
 package com.example.demo.services;
 
+import com.example.demo.exceptions.EntityNotFoundException;
 import com.example.demo.services.contracts.ClientService;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Arrays;
 
@@ -13,6 +15,7 @@ import java.util.Arrays;
 public class ClientServiceImpl implements ClientService {
 
     public static final String URL = "http://apilayer.net/api/live?access_key=2fedc6669786f9ad25c52df8e231f8c4&currencies=EUR,GBP,CAD,PLN&source=USD&format=1";
+    public  static  final String NOT_EXISTING_CURRENCY =    "Not existing currency";
     private RestTemplate restTemplate = new RestTemplate();
 
     public ClientServiceImpl() {
@@ -22,13 +25,18 @@ public class ClientServiceImpl implements ClientService {
         String  jsonBody= callCurrencyLayerRestAPI().getBody();
         //TODO - MAP holding all currencies to accept
         String concatenationOfTheTwoStrings = currencyFrom+currencyTo;
+        double result=0;
         if (jsonBody==null|| jsonBody.isEmpty()){
             throw  new IllegalArgumentException("The body of the json should not be empty");
         }
+        try{
+
         JsonObject jsonObject = new JsonParser().parse(jsonBody).getAsJsonObject();
         jsonObject=jsonObject.getAsJsonObject("quotes");
-        double result = jsonObject.getAsJsonPrimitive(concatenationOfTheTwoStrings).getAsDouble();//TODO try {}catch...
-        return result;
+         return jsonObject.getAsJsonPrimitive(concatenationOfTheTwoStrings).getAsDouble();
+        }catch (EntityNotFoundException e){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,e.getMessage());
+        }
     }
 
     private  ResponseEntity<String> callCurrencyLayerRestAPI() {
