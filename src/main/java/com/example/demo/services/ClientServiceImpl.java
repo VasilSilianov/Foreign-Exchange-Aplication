@@ -23,7 +23,6 @@ public class ClientServiceImpl implements ClientService {
 
     public double exchangeRate(String currencyFrom, String currencyTo){
         String  jsonBody= callCurrencyLayerRestAPI().getBody();
-        //TODO - MAP holding all currencies to accept
         String concatenationOfTheTwoStrings = currencyFrom+currencyTo;
         double result=0;
         if (jsonBody==null|| jsonBody.isEmpty()){
@@ -35,7 +34,7 @@ public class ClientServiceImpl implements ClientService {
         jsonObject=jsonObject.getAsJsonObject("quotes");
          return jsonObject.getAsJsonPrimitive(concatenationOfTheTwoStrings).getAsDouble();
         }catch (EntityNotFoundException e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,e.getMessage());
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,e.getMessage(NOT_EXISTING_CURRENCY));
         }
     }
 

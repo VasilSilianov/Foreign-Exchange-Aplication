@@ -30,7 +30,7 @@ public class ConversionServiceImpl implements ConversionService {
 
     @Override
     public List<Transaction> getByDate(Date date) {
-        return transactionRepository.getByDate(date);
+        return transactionRepository.getByDate_YearAndDate_MonthAndDate_Day(date);
     }
 
     @Override

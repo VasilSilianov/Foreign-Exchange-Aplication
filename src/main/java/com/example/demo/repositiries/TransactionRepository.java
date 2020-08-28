@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction,Integer> {
-    List<Transaction> getByDate(Date date);
+    List<Transaction> getByDate_YearAndDate_MonthAndDate_Day(Date date);
 }
