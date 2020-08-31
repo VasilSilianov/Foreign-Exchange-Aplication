@@ -23,27 +23,43 @@ public class ConversionServiceImpl implements ConversionService {
     }
 
 
+    /**
+     *
+     * @param id the uniq ID of the specific transaction
+     * @return Returns the transaction by the filed ID
+     */
+
     @Override
     public Transaction getById(int id) {
       return   transactionRepository.getOne(id);
     }
 
+    /**
+     *
+     * @param date This is the date of the transaction creation
+     * @return This method returns list of transactions filtered by date
+     */
     @Override
     public List<Transaction> getByDate(Date date) {
         return transactionRepository.getTransactionsByDate(date);//date.getYear(),date.getMonth(),date.getDay());
     }
+
+    /**
+     *
+     * @param sourceAmount double value that represents the amount of the source currency
+     * @param sourceCurrency String that represents the source currency
+     * @param targetCurrency String that represents the target currency
+     * @return Returns object of type Transactions  with uniq ID transactions amount equal to(sourceAmount * getClientService().exchangeRate(sourceCurrency,targetCurrency))
+     * and Date value that represents the date of creation of the transaction
+     */
 
     @Override
     public Transaction currencyConversion(double sourceAmount, String sourceCurrency , String targetCurrency)  {
         Transaction transaction = new Transaction();
         Date date = new Date();
         transaction.setAmount(sourceAmount*getClientService().exchangeRate(sourceCurrency,targetCurrency));
-//        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-//                String sDate = formatter.format(date);
-//        Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(sDate);
         transaction.setDate(date);
         return     transactionRepository.save(transaction);
-
     }
 
     public ClientService getClientService() {
