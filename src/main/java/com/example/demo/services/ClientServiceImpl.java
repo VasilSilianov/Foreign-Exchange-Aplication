@@ -16,6 +16,8 @@ public class ClientServiceImpl implements ClientService {
 
     public static final String URL = "http://apilayer.net/api/live?access_key=2fedc6669786f9ad25c52df8e231f8c4&currencies=EUR,GBP,CAD,PLN&source=USD&format=1";
     public  static  final String NOT_EXISTING_CURRENCY =    "Not existing currency";
+    public  static  final String JSON_SULD_NOT_BE_EMPTY =    "The body of the json should not be empty";
+    public  static  final String PARAMETERS =    "parameters";
     private RestTemplate restTemplate = new RestTemplate();
 
     public ClientServiceImpl() {
@@ -33,7 +35,7 @@ public class ClientServiceImpl implements ClientService {
         String  jsonBody= callCurrencyLayerRestAPI().getBody();
         String concatenationOfTheTwoStrings = currencyFrom+currencyTo;
         if (jsonBody==null|| jsonBody.isEmpty()){
-            throw  new IllegalArgumentException("The body of the json should not be empty");
+            throw  new IllegalArgumentException(JSON_SULD_NOT_BE_EMPTY);
         }
         try{
 
@@ -52,7 +54,7 @@ public class ClientServiceImpl implements ClientService {
     private  ResponseEntity<String> callCurrencyLayerRestAPI() {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
+        HttpEntity<String> entity = new HttpEntity<>(PARAMETERS, headers);
         ResponseEntity<String> result = restTemplate.exchange(URL, HttpMethod.GET, entity, String.class);
         return result;
     }
