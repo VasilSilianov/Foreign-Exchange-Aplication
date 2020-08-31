@@ -16,6 +16,12 @@ public class ClientRestController {
         this.clientService = clientService;
     }
 
+    /**
+     *
+     * @param currencyFrom String parameter that represents source currency
+     * @param currencyTo String parameter that represents target currency
+     * @return This method calls  ClientService class and returns the result from the execution of method exchangeRate
+     */
     @GetMapping("/{currencyFrom}/{currencyTo}")
     public double getExchangeRate(@PathVariable String currencyFrom,@PathVariable String currencyTo){
         return clientService.exchangeRate(currencyFrom,currencyTo);
