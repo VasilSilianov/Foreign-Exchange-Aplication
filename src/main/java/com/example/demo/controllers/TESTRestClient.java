@@ -16,7 +16,7 @@ public class TESTRestClient {
     public static final String URL = "http://apilayer.net/api/live?access_key=2fedc6669786f9ad25c52df8e231f8c4&currencies=EUR,GBP,CAD,PLN&source=USD&format=1";
 
     static RestTemplate restTemplate = new RestTemplate();
-    
+
     public static void main(String[] args)  {
       String result=  callCurrencyLayerRestAPI().getBody();
         if ( result ==null || result.isEmpty()){

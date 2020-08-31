@@ -12,6 +12,8 @@ import java.util.List;
 
 @Service
 public class ConversionServiceImpl implements ConversionService {
+    public static final String ID_DOSE_NOT_EXIST = "There is not transaction with ID: %d";
+    public static final String NO_TRANSACTIONS_FOUND = "There is no transaction with date: %s in the data base.";
 
     private ClientService clientService;
     private TransactionRepository transactionRepository;
@@ -31,7 +33,12 @@ public class ConversionServiceImpl implements ConversionService {
 
     @Override
     public Transaction getById(int id) {
-      return   transactionRepository.getOne(id);
+      try{
+
+        return   transactionRepository.getOne(id);
+      }catch (Exception e){
+          throw  new IllegalArgumentException(String.format(ID_DOSE_NOT_EXIST,id));
+      }
     }
 
     /**
@@ -41,7 +48,11 @@ public class ConversionServiceImpl implements ConversionService {
      */
     @Override
     public List<Transaction> getByDate(Date date) {
-        return transactionRepository.getTransactionsByDate(date);//date.getYear(),date.getMonth(),date.getDay());
+        List<Transaction> filteredTransactions = transactionRepository.getTransactionsByDate(date);
+             if (filteredTransactions.size()!=0){
+                return filteredTransactions;
+             }
+            throw  new IllegalArgumentException(String.format(NO_TRANSACTIONS_FOUND,date.toString()));
     }
 
     /**
