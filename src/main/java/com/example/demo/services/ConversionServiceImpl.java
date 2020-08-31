@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.exceptions.EntityNotFoundException;
 import com.example.demo.models.Transaction;
 import com.example.demo.repositiries.TransactionRepository;
 import com.example.demo.services.contracts.ClientService;
@@ -33,12 +34,8 @@ public class ConversionServiceImpl implements ConversionService {
 
     @Override
     public Transaction getById(int id) {
-      try{
-
-        return   transactionRepository.getOne(id);
-      }catch (Exception e){
-          throw  new IllegalArgumentException(String.format(ID_DOSE_NOT_EXIST,id));
-      }
+        return  transactionRepository.getByTransactionId(id).orElseThrow(
+                () -> new EntityNotFoundException(String.format(ID_DOSE_NOT_EXIST,id)));
     }
 
     /**

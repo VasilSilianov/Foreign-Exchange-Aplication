@@ -1,6 +1,7 @@
 package com.example.demo.services;
 
 
+import com.example.demo.exceptions.EntityNotFoundException;
 import com.example.demo.models.Transaction;
 import com.example.demo.repositiries.TransactionRepository;
 import org.junit.Assert;
@@ -16,6 +17,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConversionServiceImplTest {
@@ -32,19 +35,20 @@ public class ConversionServiceImplTest {
 
     @Test
     public void getByIdShould_CallRepository(){
-        //arrange
+        // Arrange
         Transaction transaction = new Transaction();
-        transaction.setTransactionId(1);
-        Mockito.when(transactionRepository.getOne(1)).thenReturn(transaction);
+        transaction.setTransactionId(1);;
+        transaction.setAmount(100);
+        Mockito.when(transactionRepository.getByTransactionId(1)).thenReturn(Optional.of(transaction));
         //act
-        Assert.assertEquals(transaction, mockConversionService.getById(1));
-        //assert
-        Mockito.verify(transactionRepository,Mockito.times(1)).getOne(1);
-
+        mockConversionService.getById(1);
+        // Assert
+        Mockito.verify(transactionRepository,Mockito.times(1)).getByTransactionId(1);
     }
 
 
     @Test public void getByDate_ShouldReturnListOfTransactionsFilteredByDate() throws ParseException {
+        //Arrange
         Date date= new Date();
         Transaction transaction1 = new Transaction();
         Transaction transaction2 = new Transaction();
@@ -65,9 +69,32 @@ public class ConversionServiceImplTest {
         transactionsFiltered.add(transaction2);
         Mockito.when(transactionRepository.getTransactionsByDate(date)).thenReturn(transactionsFiltered);
 
+        //Assert, Act
         Assert.assertNotEquals(transactions.size(),transactionRepository.getTransactionsByDate(date).size());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void getByDateShould_ThrowException_IfListIsEmpty() throws ParseException {
+        //Arrange
+         Date date= new Date();
+        //Act,Assert
+        mockConversionService.getByDate(date);
+    }
+    @Test(expected = EntityNotFoundException.class)
+    public void getByIdShould_ThrowException_IfThereIsNoTransactionWithThatId() {
+        Transaction transaction = new Transaction();
+        transaction.setTransactionId(1);
+        //arrange,act,assert
+        mockConversionService.getById(2);
 
     }
 
+    @Test
+    public void getByIDShould_ThrowExeption(){
+        Assert.assertThrows(EntityNotFoundException.class,
+                () -> mockConversionService.getById(2));
+
+
+    }
 }
 
