@@ -21,10 +21,17 @@ public class ClientServiceImpl implements ClientService {
     public ClientServiceImpl() {
     }
 
+
+    /**
+     *
+     * @param currencyFrom String parameter that represents source currency
+     * @param currencyTo String parameter that represents target currency
+     * @return This method returns double value that represents the the exchange rate between the two currencies
+     */
+    @Override
     public double exchangeRate(String currencyFrom, String currencyTo){
         String  jsonBody= callCurrencyLayerRestAPI().getBody();
         String concatenationOfTheTwoStrings = currencyFrom+currencyTo;
-        double result=0;
         if (jsonBody==null|| jsonBody.isEmpty()){
             throw  new IllegalArgumentException("The body of the json should not be empty");
         }
@@ -38,6 +45,10 @@ public class ClientServiceImpl implements ClientService {
         }
     }
 
+    /**
+     *  This method Calls the  REST Service of a web site, where we can get the exchange services
+     * @return Object of type  ResponseEntity<String> that is the body of the JSON that we call from the REST Service of the site
+     */
     private  ResponseEntity<String> callCurrencyLayerRestAPI() {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
