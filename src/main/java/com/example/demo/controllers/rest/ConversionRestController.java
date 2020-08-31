@@ -13,6 +13,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/conversion")
 public class ConversionRestController {
+    public  static final String  CONVERSION =  "Transaction ID: %d \nTarget currency amount: %.5f";
+    public  static final String  TRANSACTION =  "Transaction ID: %d\n" + "Amount: %.5f\n" + "Date: %s";
+    public  static final String  DATE =  "yyyy-MM-dd";
     private ConversionService conversionService;
 
     @Autowired
@@ -28,9 +31,7 @@ public class ConversionRestController {
     @GetMapping("/transaction/{id}")
     public String getTransactionById(@PathVariable int id){
         Transaction transaction= conversionService.getById(id);
-        return  String.format("Transaction ID: %d\n" +
-                              "Amount: %.5f\n" +
-                              "Date: %s",transaction.getTransactionId(),transaction.getAmount(),transaction.getDate()) ;
+        return  String.format(TRANSACTION,transaction.getTransactionId(),transaction.getAmount(),transaction.getDate()) ;
     }
 
     /**
@@ -40,7 +41,7 @@ public class ConversionRestController {
     @GetMapping("transactions/{date}")
     public List<Transaction> getAllTransactionsAtSpecificDate(@PathVariable String date) throws ParseException {
 
-        Date real_date = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+        Date real_date = new SimpleDateFormat(DATE).parse(date);
        return  conversionService.getByDate(real_date);//List<Transaction> transactions =
     }
 
@@ -53,7 +54,7 @@ public class ConversionRestController {
     @PostMapping("/{sourceAmount}/{sourceCurrency}/{targetCurrency}")//todo DTO za da gi napavam kato Json
     public String currencyConversion(@PathVariable double sourceAmount, @PathVariable String sourceCurrency, @PathVariable String targetCurrency)  {
         Transaction transaction = conversionService.currencyConversion(sourceAmount, sourceCurrency, targetCurrency);
-        return String.format("Transaction ID: %d \nTarget currency amount: %.5f", transaction.getTransactionId(), transaction.getAmount());
+        return String.format(CONVERSION, transaction.getTransactionId(), transaction.getAmount());
     }
 
 }
