@@ -68,47 +68,6 @@ public class ConversionServiceImplTest {
         Assert.assertNotEquals(transactions.size(),transactionRepository.getTransactionsByDate(date).size());
 
     }
-
-    @Test
-    public void currencyConversionShould_ReturnTransaction(){
-        //arrange
-        Transaction transaction = new Transaction();
-        Date date = new Date();
-        transaction.setTransactionId(1);
-         transaction.setDate(date);
-        Mockito.when(clientService.exchangeRate("USD","EUR")).thenReturn(1.0d);
-        transaction.setAmount(200 * clientService.exchangeRate("USD","EUR"));
-//        Mockito.when(clientService).thenReturn(new ClientServiceImpl());
-//        Mockito.when(transactionRepository.save(transaction)).thenReturn(transaction);
-        Mockito.when(mockConversionService.getClientService()).thenReturn(clientService);
-//        Mockito.when(mockConversionService.getClientService()).thenReturn(clientService);
-//        Mockito.when(mockConversionService.currencyConversion(200,"USD","EUR")).thenReturn(transaction);
-        //assert,act
-//        Mockito.verify(transactionRepository,Mockito.times(1)).
-//                save(transaction);
-        Assert.assertEquals(transaction,mockConversionService.currencyConversion(200,"USD","EUR"));
-    }
-
-
-    @Test
-    public void currencyConversionShould_ReturnTransaction2(){
-        Transaction transaction = new Transaction();
-//        transaction=mockConversionService.currencyConversion(100,"USD","EUR");
-        transaction.setAmount(100);
-        Mockito.when(transactionRepository.getOne(Mockito.anyInt()))
-                .thenReturn(transaction);
-
-        Transaction transactionToReturn = new Transaction();//= mockConversionService.currencyConversion(100,"USD","EUR");
-        Mockito.when(mockConversionService.currencyConversion(100,"USD","EUR"))
-                .thenReturn(transactionToReturn);
-
-       // transactionToReturn.setAmount(100);
-        System.out.println("transactionToReturn.getAmount()11111111111111111111111111111111111111111111111111111111111111");
-        System.out.println(transaction.getAmount());
-        System.out.println(transactionToReturn.getAmount());
-
-        Assert.assertEquals(transaction.getAmount(), transactionToReturn.getAmount());
-
-    }
+    
 }
 
