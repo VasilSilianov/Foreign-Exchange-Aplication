@@ -68,6 +68,6 @@ public class ConversionServiceImplTest {
         Assert.assertNotEquals(transactions.size(),transactionRepository.getTransactionsByDate(date).size());
 
     }
-    
+
 }
 
