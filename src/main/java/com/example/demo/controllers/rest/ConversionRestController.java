@@ -21,6 +21,10 @@ public class ConversionRestController {
     }
 
 
+    /**
+     * @param id int variable that represents the ID of a transaction
+     * @return String that is formatted  to represent  a transaction filtered  by ID
+     */
     @GetMapping("/transaction/{id}")
     public String getTransactionById(@PathVariable int id){
         Transaction transaction= conversionService.getById(id);
@@ -29,6 +33,10 @@ public class ConversionRestController {
                               "Date: %s",transaction.getTransactionId(),transaction.getAmount(),transaction.getDate()) ;
     }
 
+    /**
+     * @param date This is a String that is formatted "yyyy-MM-dd" and represents the date you want to filter by
+     * @return List of transaction filtered by specific date
+     */
     @GetMapping("transactions/{date}")
     public List<Transaction> getAllTransactionsAtSpecificDate(@PathVariable String date) throws ParseException {
 
@@ -36,10 +44,15 @@ public class ConversionRestController {
        return  conversionService.getByDate(real_date);//List<Transaction> transactions =
     }
 
+    /**
+     * @param sourceAmount double value that represents the amount of the source currency
+     * @param sourceCurrency String that represents the source currency
+     * @param targetCurrency String that represents the target currency
+     * @return String that represents the transaction that has been create  and is formatted to shaw only the ID of the transaction and the target amount
+     */
     @PostMapping("/{sourceAmount}/{sourceCurrency}/{targetCurrency}")//todo DTO za da gi napavam kato Json
     public String currencyConversion(@PathVariable double sourceAmount, @PathVariable String sourceCurrency, @PathVariable String targetCurrency)  {
         Transaction transaction = conversionService.currencyConversion(sourceAmount, sourceCurrency, targetCurrency);
-        System.out.println(transaction.getTransactionId());
         return String.format("Transaction ID: %d \nTarget currency amount: %.5f", transaction.getTransactionId(), transaction.getAmount());
     }
 
