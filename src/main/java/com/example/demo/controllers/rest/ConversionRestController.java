@@ -5,6 +5,8 @@ import com.example.demo.services.contracts.ConversionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -28,9 +30,10 @@ public class ConversionRestController {
     }
 
     @GetMapping("transactions/{date}")
-    public List<Transaction> getAllTransactionsAtSpecificDate(@PathVariable Date date){
+    public List<Transaction> getAllTransactionsAtSpecificDate(@PathVariable String date) throws ParseException {
 
-       return  conversionService.getByDate(date);//List<Transaction> transactions =
+        Date real_date = new SimpleDateFormat("yyyy-MM-dd").parse(date);
+       return  conversionService.getByDate(real_date);//List<Transaction> transactions =
     }
 
     @PostMapping("/{sourceAmount}/{sourceCurrency}/{targetCurrency}")//todo DTO za da gi napavam kato Json
